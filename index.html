@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chinaopt-like Header</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Для иконок -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Верхняя строка (похожая на шапку Amazon) */
+        .top-header {
+            background-color: #232F3E;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .top-header .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .top-header .delivery {
+            font-size: 14px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .top-header .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 20px;
+            margin-left: 20px;
+            padding: 5px;
+            flex-grow: 1;
+        }
+
+        .search-bar select {
+            border: none;
+            background-color: transparent;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        .search-bar input {
+            border: none;
+            flex-grow: 1;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .search-bar .search-button {
+            background-color: #FF9900;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .top-header .user-options {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .top-header .user-options span {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        /* Вторая строка (меню категорий и навигация) */
+        .categories-bar {
+            background-color: #131921;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .categories-bar .categories-button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .categories-bar .nav-link {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        /* Подкатегория выпадающего меню */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #232F3E;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color: #ddd;}
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+   <style>/* Контейнер для изображений */
+    .image-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Расстояние между элементами */
+        justify-content: space-between;
+    }
+    
+    .image-item {
+        flex: 1 1 calc(50% - 10px); /* 2 элемента в строке */
+        box-sizing: border-box;
+        text-align: center;
+        border: 1px solid #ddd; /* Рамка вокруг изображений (по желанию) */
+        padding: 5px;
+        background-color: #f9f9f9; /* Цвет фона (по желанию) */
+    }
+    
+    /* Стиль для изображений */
+    .image-item img {
+        width: 100%; /* Изображение растягивается на всю ширину элемента */
+        height: auto; /* Сохраняем пропорции */
+    }
+    
+    /* Для больших экранов (например, компьютеров) */
+    @media (min-width: 769px) {
+        .image-item {
+            flex: 1 1 calc(25% - 10px); /* 4 изображения в строку */
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Верхняя строка -->
+    <div class="top-header">
+        <div class="logo" onclick="window.location.href='/'">Amazon</div>
+        <div class="delivery" onclick="alert('Выберите страну для доставки!')">Доставить в Казахстан</div>
+        <div class="search-bar">
+            <select id="categorySelect">
+                <option>Все</option>
+                <option>Электроника</option>
+                <option>Одежда</option>
+                <option>Книги</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Что вы ищете?">
+<button class="search-button" onclick="searchProducts()">🔍</button>
+        </div>
+        <div class="user-options">
+            <span onclick="changeLanguage()">Язык</span>
+            <span onclick="alert('Перейти в систему аккаунтов и списков')">Привет, Войдите</span>
+            <button onclick="window.location.href='cart.html'">Корзина</button>
+        </div>
+    </div>
+
+    <!-- Вторая строка (меню категорий и навигация) -->
+    <div class="categories-bar">
+        <div class="dropdown">
+            <button class="categories-button">Все категории</button>
+            <div class="dropdown-content">
+                <a href="javascript:void(0)" onclick="redirectToPage('Цифровой контент')">Цифровой контент</a>
+                <a href="javascript:void(0)" onclick="redirectToPage('Электроника')">Электроника</a>
+                <a href="javascript:void(0)" onclick="redirectToPage('Одежда')">Одежда</a>
+                <a href="javascript:void(0)" onclick="redirectToPage('Книги')">Книги</a>
+                <!-- Добавьте больше категорий по мере необходимости -->
+            </div>
+        </div>
+        <span class="nav-link" onclick="redirectToPage('Сегодняшнее приложение')">Сегодняшнее приложение</span>
+        <span class="nav-link" onclick="redirectToPage('Обслуживание клиентов')">Обслуживание клиентов</span>
+        <span class="nav-link" onclick="redirectToPage('Реестр')">Реестр</span>
+        <span class="nav-link" onclick="redirectToPage('Подарочные карты')">Подарочные карты</span>
+        <span class="nav-link" onclick="redirectToPage('Продавать')">Продавать</span>
+    </div>
+    <!-- Секция с товарами -->
+<div class="products-section">
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/Wc7EEvVzmb0/rs:fit:1000:0:1/q:100/plain/images/products/1/6643/939964915/smart_watch_starlight_0.jpg@webp" alt="Товар 1">
+      <h3>smart watch</h3>
+      <p>61900kzt/870,58y</p>
+      <a href="product1-details.html" class="btn">Подробнее</a>
+    </div>
+  
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/19horPEMzfE/rs:fit:1000:0:1/q:100/plain/images/products/1/6612/939964884/sample_chair_1.jpg@webp" alt="Товар 2">
+      <h3>Кресло руководителя</h3>
+      <p>Описание товара 2</p>
+      <a href="product2-details.html" class="btn">Подробнее</a>
+    </div>
+  
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/8Nsf7dmGWkc/rs:fit:1000:0:1/q:100/plain/images/products/1/6557/939964829/sample_flowerpot_1.jpeg@webp" alt="Товар 3">
+      <h3>Кашпо</h3>
+      <p>Описание товара 3</p>
+      <a href="product3-details.html" class="btn">Подробнее</a>
+    </div>
+  
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/q0hZXbXQe9g/rs:fit:360:0:1/q:100/plain/images/products/1/6728/939965000/sample_woman_suit_1.jpg@webp" alt="Товар 4">
+      <h3>Костюм женский</h3>
+      <p>Описание товара 4</p>
+      <a href="product4-details.html" class="btn">Подробнее</a>
+    </div>
+  
+    <div class="product-item">
+      <img src="c:\users\user\appdata\local\360extremebrowser\chrome\User Data\temp\950a520a5c9c0be63cc4df7b0a8043ba_12__1_.jpg@webp" alt="Товар 5">
+      <h3>мартфон Samsung Galaxy S21 128GB (SM-G991B</h3>
+      <p>Описание товара 5</p>
+      <a href="product5-details.html" class="btn">Подробнее</a>
+    </div>
+  
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/ggGMSeQpHgU/rs:fit:1000:0:1/q:100/plain/images/products/1/3803/414199515/sm_215_galaxya21s_black_front_raw.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 256GB (SM-G991B))</h3>
+      <p>Описание товара 6</p>
+      <a href="product7-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/zaMN7MaBl4Y/rs:fit:1000:0:1/q:100/plain/images/products/1/2881/494472001/1.webp@webp" alt="Товар 6">
+      <h3>Фен для волос Rowenta Signature Pro Dune , CV7827F0, черный</h3>
+      <p>Описание товара 6</p>
+      <a href="product8-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+    
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+    <div class="product-item">
+      <img src="https://static.insales-cdn.com/r/oqSSXI8O1pY/rs:fit:1000:0:1/q:100/plain/images/products/1/3723/414199435/12__1_.jpg@webp" alt="Товар 6">
+      <h3>Смартфон Samsung Galaxy S21 128GB (SM-G991B)</h3>
+      <p>Описание товара 6</p>
+      <a href="product6-details.html" class="btn">Подробнее</a>
+    </div>
+
+  
+  <style>
+    /* Стиль для главной зеленой строки */
+    .header {
+      background-color: green;
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+  
+    /* Секция с товарами */
+    .products-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 20px;
+      gap: 20px;
+    }
+  
+    /* Индивидуальные карточки товара */
+    .product-item {
+      background-color: white;
+      width: calc(33.33% - 20px); /* Каждый товар занимает 1/3 ширины, минус отступ */
+      box-sizing: border-box;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+  
+    .product-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  
+    .product-item h3 {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  
+    .product-item p {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+  
+    .product-item .btn {
+      background-color: blue;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  
+    .product-item .btn:hover {
+      background-color: darkblue;
+    }
+  </style>
+  
+      
+      <style>
+        .smartwatch-product {
+          padding: 20px;
+          display: flex;
+          justify-content: center;
+        }
+      
+        .product-item {
+          position: relative;
+          background-color: white;
+          padding: 15px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          text-align: center;
+          width: 250px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+      
+        .product-item img {
+          width: 100%;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 8px;
+        }
+      
+        .product-info h3 {
+          font-size: 18px;
+          margin: 10px 0;
+        }
+      
+        .product-info p {
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
+      
+        .product-info .details-btn {
+          background-color: blue;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          cursor: pointer;
+          border-radius: 5px;
+          text-decoration: none;
+        }
+      
+        .product-info .details-btn:hover {
+          background-color: darkblue;
+        }
+      </style>
+      
+      
+    
+    <!-- Скрипты -->
+    <script>
+        // Функция поиска товаров
+        function searchProducts() {
+            var query = document.getElementById('searchInput').value;
+            if (query) {
+                alert('Поиск по запросу: ' + query);
+            } else {
+                alert('Введите запрос для поиска');
+            }
+        }
+
+        // Функция смены языка
+        function changeLanguage() {
+            const languages = ['Русский', 'English', 'Қазақша', '中文'];
+            const currentLang = prompt("Выберите язык:\n1. Русский\n2. English\n3. Қазақша\n4. 中文", 'Русский');
+            if (languages.includes(currentLang)) {
+                alert('Язык изменен на: ' + currentLang);
+                // Логику смены языка можно добавить, подгружая разные тексты для каждой страницы
+            } else {
+                alert('Неверный выбор языка!');
+            }
+        }
+
+        // Переход на страницу категории или другого раздела
+        function redirectToPage(page) {
+            alert('Вы перешли на страницу: ' + page);
+            // Реализовать редирект на соответствующую страницу
+            // window.location.href = 'url'; например, для категории
+        }
+    </script>
+</body>
+</html>
